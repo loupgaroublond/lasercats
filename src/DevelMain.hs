@@ -59,9 +59,10 @@ instance MonadAWS m => Interpreter LaunchInstance m where
   type Instruction LaunchInstance m = m Reservation
   -- type Instruction LaunchInstance = forall m. MonadAWS m => m Reservation
   interpret c = let
+    imageId = pure "ami-7f43f307"
     instanceSize = c ^. liInstanceSize . to instanceOf
     in
-    send $ runInstances "ami-7f43f307" 1 1 & rInstanceType .~ instanceSize
+    send $ runInstances 1 1 & risInstanceType .~ instanceSize & risImageId .~ imageId
 
 data TerminateInstance = TerminateInstance
   { _tiInstanceId :: Text
