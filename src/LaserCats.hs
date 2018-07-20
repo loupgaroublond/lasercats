@@ -17,6 +17,7 @@
 
 {-# LANGUAGE AllowAmbiguousTypes   #-}
 {-# LANGUAGE DeriveFunctor         #-}
+{-# LANGUAGE GADTs                 #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE StandaloneDeriving    #-}
 {-# LANGUAGE TypeFamilies          #-}
@@ -25,6 +26,7 @@ module LaserCats where
 
 import Data.Text
 import Data.String
+import Control.Monad.State.Strict
 
 data Doc i = Vec [i] | Sca i
   deriving (Functor, Show)
@@ -40,10 +42,8 @@ class Interpreter c m where
   interpret :: c -> Instruction c m
 
 
-data Machine e d m a = Machine
-  {
-    runMachine :: d -> m (a, d, e)
-  }
+data MachineState e d = Monoid e => MachineState e d
+type Machine e d m a = StateT (MachineState e d) m a
 
 data Loader i e d m a =
   Loader {

@@ -26,6 +26,7 @@ dependencies:
 - amazonka-core
 - amazonka-ec2
 - lens
+- mtl
 
 library:
   source-dirs: src
