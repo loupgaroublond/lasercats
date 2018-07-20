@@ -57,7 +57,6 @@ makeLenses ''LaunchInstance
 
 instance MonadAWS m => Interpreter LaunchInstance m where
   type Instruction LaunchInstance m = m Reservation
-  -- type Instruction LaunchInstance = forall m. MonadAWS m => m Reservation
   interpret c = let
     imageId = pure "ami-7f43f307"
     instanceSize = c ^. liInstanceSize . to instanceOf
